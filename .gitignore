@@ -1,0 +1,11 @@
+# Intel
+.idea
+
+# Node
+node_modules
+
+# Project
+public/**.json
+public/assets
+public/assets/server.js
+uploads/

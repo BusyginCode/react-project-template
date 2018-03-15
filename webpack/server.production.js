@@ -18,7 +18,16 @@ module.exports = merge(common, {
     libraryTarget: 'commonjs2'
   },
   module: {
-    rules: []
+    rules: [
+      {
+        test: /\.scss?$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: "css-loader" },
+          { loader: "sass-loader" }
+        ]
+      },
+    ]
   },
   plugins: [
     new webpack.DefinePlugin({

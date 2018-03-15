@@ -2,8 +2,9 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const common = require('./common');
 const join = require('path').join;
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsWebpackPlugin = require('stats-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = merge(common, {
   name: 'client',
@@ -18,26 +19,26 @@ module.exports = merge(common, {
   },
   module: {
     rules: [{
-      test: /\.styl$/,
+      test: /\.scss/,
       exclude: /node_modules/,
-      use: ExtractCssChunks.extract({
+      use: ExtractTextPlugin.extract({
         use: [
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'stylus-loader'
-          }
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' }
         ]
       })
     }]
   },
   plugins: [
-    new ExtractCssChunks(),
+    new ExtractTextPlugin("bundle.css", {
+      allChunks: true
+    }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['bootstrap'],
       filename: '[name].js',

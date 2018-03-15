@@ -20,15 +20,6 @@ module.exports = {
         use: 'babel-loader'
       },
       {
-        test: /\.scss/,
-        exclude: /node_modules/,
-        use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" },
-          { loader: "sass-loader" }
-        ]
-      },
-      {
         test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
         exclude: /node_modules/,
         use: [

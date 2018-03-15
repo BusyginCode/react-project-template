@@ -24,6 +24,14 @@ module.exports = merge(common, {
         loader: "eslint-loader",
         options: {}
       },
+      {
+        test: /\.scss?$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: "css-loader" },
+          { loader: "sass-loader" }
+        ]
+      },
     ]
   },
   plugins: [

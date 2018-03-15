@@ -2,7 +2,6 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const common = require('./common');
 const join = require('path').join;
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 module.exports = merge(common, {
   name: 'client',
@@ -24,10 +23,24 @@ module.exports = merge(common, {
         loader: "eslint-loader",
         options: {}
       },
+      {
+        test: /\.scss?$/,
+        exclude: /node_modules/,
+        use: [
+          { loader: "style-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              localIdentName: '[local]',
+            },
+          },
+          { loader: "sass-loader" }
+        ]
+      },
     ]
   },
   plugins: [
-    new ExtractCssChunks(),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
       filename: '[name].js',
